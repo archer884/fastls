@@ -13,7 +13,10 @@ struct Opt {
 
 impl Opt {
     fn path(&self) -> &Path {
-        self.path.as_ref().map(AsRef::as_ref).unwrap_or_else(|| Path::new("."))
+        self.path
+            .as_ref()
+            .map(AsRef::as_ref)
+            .unwrap_or_else(|| Path::new("."))
     }
 }
 
@@ -21,7 +24,7 @@ fn main() -> io::Result<()> {
     let opt = Opt::from_args();
     let stream = io::stdout();
     let mut stream = stream.lock();
-    
+
     let walker = WalkDir::new(&opt.path()).min_depth(1);
     let walker = if opt.recurse {
         walker
